@@ -4,6 +4,7 @@ using System.Collections;
 public class IKFeetController : MonoBehaviour {
 	
 	public Transform body;
+	public Transform pelvis;
 	Vector3 lastBodyPos;
 	
 	public Transform leftFootPrint;
@@ -20,10 +21,11 @@ public class IKFeetController : MonoBehaviour {
 	public bool moving;
 	
 	public float stanceWidth = 0.5f;
-	public float motionOffset = 1.2f;
+	float currentStanceWidth = 0.5f;
 	public float stepDistance = 1.2f;
 	public float stepHeight = 1.2f;
 	public float legLength = 2.3f;
+	public float pelvisOffset = 0.15f;
 	public AnimationCurve footLiftCurve;
 	public AnimationCurve footTiltCurve;
 	
@@ -34,24 +36,24 @@ public class IKFeetController : MonoBehaviour {
 		lastBodyPos = body.position;
 		leftFootGoal.renderer.enabled = false;
 		rightFootGoal.renderer.enabled = false;
+		rightFootPrint.localPosition = new Vector3(stanceWidth, 0.0f, stepDistance * 0.75f);
+		leftFootPrint.localPosition = new Vector3(-stanceWidth, 0, -stepDistance * 0.75f);
 	}
 	
 	void FixedUpdate () {
 				
-		float currentStanceWidth;
 		float currentStepDistance;
+		float currentPelvisOffset;
 
 		currentStanceWidth = stanceWidth;
 		currentStepDistance = stepDistance;
+		currentPelvisOffset = pelvisOffset;
 		
 		float currentSpeed = getSpeed() * 10;
 		
 		//moving = currentSpeed > 0.5f ? true : false;
 		currentStanceWidth = Mathf.Lerp (stanceWidth, 0.0f, currentSpeed -0.5f);
-		
-	//	leftFootPrint.localPosition = new Vector3(-currentStanceWidth, 0.0f, currentStanceOffset);
-	//	rightFootPrint.localPosition = new Vector3(currentStanceWidth, 0.0f, -currentStanceOffset);
-		
+				
 		if (!leftFootUp && !rightFootUp) {
 			float rightFootDistance = Vector3.Distance(rightFootPrint.position, rightFootGoal.position);
 			float leftFootDistance = Vector3.Distance(leftFootPrint.position, leftFootGoal.position);
@@ -89,18 +91,16 @@ public class IKFeetController : MonoBehaviour {
 		}
 		
 		//position the pelvis
-		Vector3 pelvisTarget;
+
+		Vector3 pelvisPos = Vector3.zero;
+		pelvisPos.y = rightFootGoal.position.y + leftFootGoal.position.y - 0.1f;
+		pelvisPos.z = currentPelvisOffset;
+		pelvis.localPosition = Vector3.Lerp (pelvis.localPosition, pelvisPos, Time.deltaTime * 8);
 		
-		if (moving) {
-			float pelvisHeight = legLength + ((newLeftFootPos.y + newRightFootPos.y) * 0.75f);
-			pelvisTarget = transform.position + new Vector3(0.0f, pelvisHeight, 0.0f);
-		} else {
-			Vector3 MidFootPos = Vector3.Lerp(rightFootGoal.position, leftFootGoal.position, 0.5f);
-			MidFootPos.y += legLength;
-			pelvisTarget = MidFootPos;
-		}
-		body.position = Vector3.Lerp (body.position, pelvisTarget, Time.deltaTime * 10);
-		body.rotation = Quaternion.Lerp (body.rotation, transform.rotation, Time.deltaTime * 3);
+		Vector3 rigPos = Vector3.Lerp (transform.position, body.position, Time.deltaTime * 10);
+		rigPos.y = 0.0f;
+		transform.position = rigPos;
+		transform.rotation = Quaternion.Lerp (transform.rotation, body.rotation, Time.deltaTime * 3);
 	}
 	
 	void liftLeftFoot() {
@@ -109,6 +109,7 @@ public class IKFeetController : MonoBehaviour {
 		Vector3 bodyRelative = transform.InverseTransformPoint(leftFootGoal.position);
 		float currentOffset = Mathf.Clamp(-bodyRelative.z, -stepDistance * 0.8f, stepDistance * 0.8f);
 		Vector3 localPrintPos = leftFootPrint.localPosition;
+		localPrintPos.x = -currentStanceWidth;
 		localPrintPos.z = currentOffset;
 		leftFootPrint.localPosition = localPrintPos;
 	}
@@ -128,6 +129,7 @@ public class IKFeetController : MonoBehaviour {
 		Vector3 bodyRelative = transform.InverseTransformPoint(rightFootGoal.position);
 		float currentOffset = Mathf.Clamp(-bodyRelative.z, -stepDistance * 0.8f, stepDistance * 0.8f);
 		Vector3 localPrintPos = rightFootPrint.localPosition;
+		localPrintPos.x = currentStanceWidth;
 		localPrintPos.z = currentOffset;
 		rightFootPrint.localPosition = localPrintPos;
 	}

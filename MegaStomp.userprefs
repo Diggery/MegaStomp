@@ -1,10 +1,13 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/IKFeetController.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/CrusaderControl.cs">
     <Files>
-      <File FileName="Assets/Scripts/IKFeetController.cs" Line="49" Column="71" />
-      <File FileName="Assets/Scripts/IKLegController.cs" Line="20" Column="1" />
-      <File FileName="Assets/Scripts/TransformMapper.cs" Line="29" Column="4" />
+      <File FileName="Assets/Scripts/IKFeetController.cs" Line="50" Column="3" />
+      <File FileName="Assets/Scripts/IKLegController.cs" Line="1" Column="1" />
+      <File FileName="Assets/Scripts/TransformMapper.cs" Line="1" Column="1" />
+      <File FileName="Assets/Scripts/SetUpHangingWeight.cs" Line="1" Column="1" />
+      <File FileName="Assets/Scripts/CrusaderControl.cs" Line="9" Column="15" />
+      <File FileName="Assets/Scripts/KeyboardControl.cs" Line="43" Column="22" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

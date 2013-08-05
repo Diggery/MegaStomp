@@ -14,9 +14,13 @@ public class SetUpHangingWeight : MonoBehaviour {
 		JointSpring springSettings = joint.spring;
 		springSettings.spring = 0.25f;
 		joint.spring = springSettings;
+		if (!transform.parent.rigidbody) {
+			Rigidbody newBody = transform.parent.gameObject.AddComponent<Rigidbody>();
+			newBody.isKinematic = true;
+		}
 		joint.connectedBody = transform.parent.rigidbody;
 		transform.parent = null;
-		rigidbody.angularDrag = 10.0f;
+		rigidbody.angularDrag = 30.0f;
 	}
 
 }

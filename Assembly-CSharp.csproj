@@ -44,9 +44,11 @@
 	</Reference>
   </ItemGroup>
   <ItemGroup>
+     <Compile Include="Assets\Scripts\CrusaderControl.cs" />
      <Compile Include="Assets\Scripts\IKFeetController.cs" />
      <Compile Include="Assets\Scripts\IKLegController.cs" />
      <Compile Include="Assets\Scripts\IKSolver.cs" />
+     <Compile Include="Assets\Scripts\KeyboardControl.cs" />
      <Compile Include="Assets\Scripts\SetUpHangingWeight.cs" />
      <Compile Include="Assets\Scripts\TransformMapper.cs" />
   </ItemGroup>
