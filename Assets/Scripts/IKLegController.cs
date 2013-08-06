@@ -3,8 +3,8 @@ using System.Collections;
 
 public class IKLegController : MonoBehaviour {
 	
-	float hipLength;
-	float kneeLength;
+	float upperLegLength;
+	float lowerLegLength;
 	
 	public Transform upperLeg;
 	public Transform lowerLeg;
@@ -13,20 +13,28 @@ public class IKLegController : MonoBehaviour {
 	public Transform goal;
 	public bool rightLeg;
 	
-	public Transform feetController;
-	IKFeetController ikFeetController;
+	Transform stepController;
+	public IKStepController ikStepController;
+	CrusaderControl mainController;
 
 
 	void Start () {
-		if (feetController) ikFeetController = feetController.GetComponent<IKFeetController>();
-		hipLength = lowerLeg.localPosition.magnitude;
-		kneeLength = Vector3.Distance(lowerLeg.position, IKEnd.position);
+		stepController = ikStepController.transform;
+		
+		upperLegLength = lowerLeg.localPosition.magnitude;
+		lowerLegLength = Vector3.Distance(lowerLeg.position, IKEnd.position);
 	}
 	
 	void FixedUpdate () {
+		if (!mainController) {
+			mainController = ikStepController.getMainController();
+		}
+		if (mainController.stunned) return;
+				
+
 		float hipOffset = rightLeg ? 15 : -15;
 
-		Vector3 hipAngle = Quaternion.AngleAxis(hipOffset + feetController.eulerAngles.y, Vector3.up) * Vector3.forward;
+		Vector3 hipAngle = Quaternion.AngleAxis(hipOffset + stepController.eulerAngles.y, Vector3.up) * Vector3.forward;
 		
 		transform.LookAt(goal, hipAngle);
 		IKEnd.position = goal.position;
@@ -35,23 +43,13 @@ public class IKLegController : MonoBehaviour {
 		float angle1 = 0.0f;
 		float angle2 = 0.0f;
 
-		IKSolver.CalcIK_2D(out angle1, out angle2, true, hipLength, kneeLength, targetPos.x, targetPos.y);
+		IKSolver.CalcIK_2D(out angle1, out angle2, true, upperLegLength, lowerLegLength, targetPos.x, targetPos.y);
 				
 		upperLeg.localRotation = Quaternion.AngleAxis(angle1 * Mathf.Rad2Deg, Vector3.right);
 		lowerLeg.localRotation = Quaternion.AngleAxis(angle2 * Mathf.Rad2Deg, Vector3.right);
 		
-		bool footUp = false;
-		if (ikFeetController) {
-			if (rightLeg) {
-				footUp = ikFeetController.isRightFootUp();	
-			} else {
-				footUp = ikFeetController.isLeftFootUp();	
-			}
-		}
-		float xOffset = footUp ? 90 : 90;
-		foot.rotation = goal.rotation * 
-			Quaternion.AngleAxis(xOffset, Vector3.right) * 
-			Quaternion.AngleAxis(-hipOffset - feetController.eulerAngles.y , Vector3.forward);// *
-			//Quaternion.AngleAxis(hipOffset + FeetController.eulerAngles.y, Vector3.up);
+		foot.rotation = goal.rotation;
 	}
+
+	
 }

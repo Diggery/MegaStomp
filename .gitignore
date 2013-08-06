@@ -4,3 +4,5 @@ Library/
 Library/guidmapper
 
 Library/InspectorExpandedItems.asset
+
+*.pidb
