@@ -38,13 +38,13 @@ public class CrusaderControl : MonoBehaviour {
 				Vector3 midFoot = Vector3.Lerp(leftFoot.position, rightFoot.position, 0.5f);
 				Vector3 targetOffset = midFoot - transform.position;
 				targetOffset.y = 0.0f;
-				rigidbody.AddForce(targetOffset * moveSpeed);
+				rigidbody.AddForce(targetOffset * moveSpeed * 2.0f);
 			}
 		
 			Vector3 predictedUp = Quaternion.AngleAxis(
-            rigidbody.angularVelocity.magnitude * Mathf.Rad2Deg * stability / speed,
-            rigidbody.angularVelocity
-       		) * transform.up;
+            	rigidbody.angularVelocity.magnitude * Mathf.Rad2Deg * stability / speed,
+            	rigidbody.angularVelocity
+       			) * transform.up;
  
         	Vector3 torqueVector = Vector3.Cross(predictedUp, Vector3.up);
         	rigidbody.AddTorque(torqueVector * speed * speed);
@@ -68,6 +68,31 @@ public class CrusaderControl : MonoBehaviour {
 	
 	public void input(Vector3 newInput) {
 		currentInput = newInput;
+	}
+	
+		
+	public void enableRagDoll(Vector3 newForce) {
+		stunned = true;
+		Rigidbody[] rigidbodies = transform.GetComponentsInChildren<Rigidbody>();
+		foreach (Rigidbody currentRigidbody in rigidbodies) {
+			if (currentRigidbody.gameObject.layer == 9) {
+				currentRigidbody.useGravity = true;
+				currentRigidbody.isKinematic = false;	
+			}
+		}
+		//root.rigidbody.AddForce(newForce, ForceMode.Impulse);
+	}
+		
+	public void disableRagDoll(Vector3 newForce) {
+		stunned = false;
+		Rigidbody[] rigidbodies = transform.GetComponentsInChildren<Rigidbody>();
+		foreach (Rigidbody currentRigidbody in rigidbodies) {
+			if (currentRigidbody.gameObject.layer == 9) {
+				currentRigidbody.useGravity = false;
+				currentRigidbody.isKinematic = true;	
+			}
+		}
+		//root.rigidbody.AddForce(newForce, ForceMode.Impulse);
 	}
 }
 

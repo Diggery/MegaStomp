@@ -29,6 +29,14 @@ public class KeyboardControl : MonoBehaviour {
 			inputVector += new Vector3(0, 1, 0);
 		}
 		
+		if (Input.GetKey(KeyCode.M)) {
+			crusaderControl.enableRagDoll(new Vector3(0, 1, 0));
+		}
+		
+		if (Input.GetKey(KeyCode.N)) {
+			crusaderControl.disableRagDoll(new Vector3(0, 1, 0));
+		}		
+		
 		//normalize it for the input control
 		inputVector.Normalize();
 		
