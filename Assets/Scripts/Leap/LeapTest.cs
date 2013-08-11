@@ -28,6 +28,8 @@ public class LeapTest : MonoBehaviour {
 				position.transform.position = position.transform.position + tipPosition*Time.deltaTime;
 			}
 			
+			
+			
 			/*foreach(Pointable pointable in pointableList){
 				if(pointable.TipPosition.IsValid()){
 					tipPosition = pointable.TipPosition.ToUnity();

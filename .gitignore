@@ -19,3 +19,4 @@ Assembly-CSharp-vs.csproj
 Assembly-CSharp.csproj
 MegaStomp-csharp.sln
 MegaStomp.sln
+*.pidb
