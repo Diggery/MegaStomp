@@ -1,10 +1,22 @@
+<<<<<<< HEAD
 
 Library/
 
 Library/guidmapper
 
 Library/InspectorExpandedItems.asset
-
+=======
+Library
+Library/*
+/Library
+*/Library
+Temp
+Assembly-CSharp-vs.pidb
+MegaStomp-csharp.userprefs
+MegaStomp.userprefs
+>>>>>>> Added a bunch of leap stuff
+Assembly-CSharp-vs.csproj
+Assembly-CSharp.csproj
+MegaStomp-csharp.sln
+MegaStomp.sln
 *.pidb
-
-Library/metadata/d9/d96858151ea66426ebb94c7ecbebc0d7
