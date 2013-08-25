@@ -76,7 +76,7 @@ public class IKFootController : MonoBehaviour {
 		Vector3 localPrintPos = footPrint.localPosition;
 		float stanceWidth = ikStepController.getStanceWidth();
 		localPrintPos.x = !rightFoot ? -stanceWidth : stanceWidth;
-		localPrintPos.z = currentOffset;
+		localPrintPos.z = currentOffset + 0.25f;
 		footPrint.localPosition = localPrintPos;
 	}
 	
@@ -85,7 +85,7 @@ public class IKFootController : MonoBehaviour {
 		footStepTimer = 0;
 		lastFootPos = footGoal.position;
 		Vector3 localPrintPos = footPrint.localPosition;
-		localPrintPos.z = 0.0f;
+		localPrintPos.z = 0.25f;
 		footPrint.localPosition = localPrintPos;
 		plantedFootRot = getFootOrientation();
 	}

@@ -34,6 +34,7 @@ public class IKStepController : MonoBehaviour {
 	
 	void FixedUpdate () {
 		if (mainController.stunned) return;
+		
 				
 		float currentStepDistance;
 		float currentSpeed = body.rigidbody.velocity.magnitude;
@@ -58,15 +59,8 @@ public class IKStepController : MonoBehaviour {
 				if (rightFootDistance > currentStepDistance) rightFootController.liftFoot(); 	
 			}
 		}
-		
-		//position the pelvis
-
-//		Vector3 pelvisPos = Vector3.zero;
-//		pelvisPos.y = rightFootGoal.position.y + leftFootGoal.position.y - 0.1f;
-//		pelvis.localPosition = Vector3.Lerp (pelvis.localPosition, pelvisPos, Time.deltaTime * 8);
 				
 		transform.rotation = body.rotation;		
-		//Vector3 rigPos = body.TransformPoint(Vector3.forward * Mathf.Clamp(currentSpeed * 0.05f, 0, currentStepDistance * 0.5f));
 		Vector3 rigPos = body.position;
 		rigPos.y = 0.0f;
 		transform.position = rigPos;

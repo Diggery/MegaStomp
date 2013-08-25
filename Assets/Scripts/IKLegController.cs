@@ -23,14 +23,15 @@ public class IKLegController : MonoBehaviour {
 		
 		upperLegLength = lowerLeg.localPosition.magnitude;
 		lowerLegLength = Vector3.Distance(lowerLeg.position, IKEnd.position);
-	}
-	
-	void FixedUpdate () {
+		
 		if (!mainController) {
 			mainController = ikStepController.getMainController();
 		}
-		if (mainController.stunned) return;
-				
+	}
+	
+	void FixedUpdate () {
+
+		if (mainController && mainController.stunned) return;
 
 		float hipOffset = rightLeg ? 15 : -15;
 
